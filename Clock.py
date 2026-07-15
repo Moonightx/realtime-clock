@@ -5,17 +5,24 @@ from datetime import datetime
 root = tk.Tk()
 root.title("Real Time Clock")
 root.geometry("480x380")
+BG_COLOR = "#121212"
+CARD_COLOR = "#1e1e1e"
+ACCENT_COLOR = "#00e5ff"
+TEXT_COLOR = "#e0e0e0"
+MUTED_COLOR = "#888888"
 
-time_label = tk.Label(root, text="00:00:00", font=("Consolas", 40))
+root.configure(bg=BG_COLOR)
+
+time_label = tk.Label(root, text="00:00:00", font=("Consolas", 48, "bold"), bg=BG_COLOR, fg=ACCENT_COLOR)
 time_label.pack(pady=50)
 
-date_label = tk.Label(root, text="", font=("Segoe UI", 14))
+date_label = tk.Label(root, text="", font=("Segoe UI", 13), bg=BG_COLOR, fg=MUTED_COLOR)
 date_label.pack()
 
-alarm_frame = tk.Frame(root)
+alarm_frame = tk.Frame(root, bg=BG_COLOR)
 alarm_frame.pack(pady=10)
 
-alarm_entry = tk.Entry(alarm_frame, font=("Consolas", 14), width=10, justify="center")
+alarm_entry = tk.Entry(alarm_frame, font=("Consolas", 14), width=12, justify="center", bg=CARD_COLOR, fg=TEXT_COLOR, insertbackground=TEXT_COLOR, relief="flat", bd=8)
 alarm_entry.insert(0, "HH:MM AM/PM")
 alarm_entry.pack()
 
@@ -26,7 +33,7 @@ def set_alarm():
     alarm_time = alarm_entry.get()
     messagebox.showinfo("Alarm", f"Alarm diset pada {alarm_time}")
 
-alarm_button = tk.Button(alarm_frame, text="Set Alarm", command=set_alarm)
+alarm_button = tk.Button(alarm_frame, text="Set Alarm", command=set_alarm, bg=ACCENT_COLOR, fg="#000000", font=("Segoe UI", 10, "bold"), relief="flat", padx=15, pady=6, cursor="hand2", activebackground="#00b8cc")
 alarm_button.pack(pady=5)
 
 def update_time():
