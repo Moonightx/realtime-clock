@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from datetime import datetime
+import winsound
 
 root = tk.Tk()
 root.title("Real Time Clock")
@@ -47,7 +48,10 @@ def update_time():
 
     waktu_tanpa_detik = now.strftime("%I:%M %p")
     if alarm_time == waktu_tanpa_detik:
-        messagebox.showinfo("Alarm", "Waktunya sudah tiba! ⏰")
+        winsound.Beep(1000, 500)
+        winsound.Beep(1000, 500)
+        winsound.Beep(1000, 500)
+        messagebox.showinfo("Alarm", "Waktunya sudah tiba! ⏰")     
 
     root.after(1000, update_time)
 
