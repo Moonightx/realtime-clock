@@ -34,10 +34,19 @@ def set_alarm():
     alarm_time = alarm_entry.get()
     messagebox.showinfo("Alarm", f"Alarm diset pada {alarm_time}")
 
+def cancel_alarm():
+    global alarm_time
+    alarm_time = None
+    messagebox.showinfo("Alarm", "Alarm dibatalkan")
+
 alarm_button = tk.Button(alarm_frame, text="Set Alarm", command=set_alarm, bg=ACCENT_COLOR, fg="#000000", font=("Segoe UI", 10, "bold"), relief="flat", padx=15, pady=6, cursor="hand2", activebackground="#00b8cc")
 alarm_button.pack(pady=5)
 
+cancel_button = tk.Button(alarm_frame, text="Cancel Alarm", command=cancel_alarm, bg=CARD_COLOR, fg=TEXT_COLOR, font=("Segoe UI", 10), relief="flat", padx=15, pady=6, cursor="hand2", activebackground="#333333")
+cancel_button.pack(pady=5)
+
 def update_time():
+    global alarm_time
     now = datetime.now()
 
     waktu_sekarang = now.strftime("%I:%M:%S %p")
@@ -51,7 +60,8 @@ def update_time():
         winsound.Beep(1000, 500)
         winsound.Beep(1000, 500)
         winsound.Beep(1000, 500)
-        messagebox.showinfo("Alarm", "Waktunya sudah tiba! ⏰")     
+        messagebox.showinfo("Alarm", "Waktunya sudah tiba! ⏰")
+        alarm_time = None    
 
     root.after(1000, update_time)
 
