@@ -31,8 +31,14 @@ alarm_time = None
 
 def set_alarm():
     global alarm_time
-    alarm_time = alarm_entry.get()
-    messagebox.showinfo("Alarm", f"Alarm diset pada {alarm_time}")
+    input_user = alarm_entry.get().strip()
+
+    try:
+        datetime.strptime(input_user, "%I:%M %p")
+        alarm_time = input_user
+        messagebox.showinfo("Alarm", f"Alarm diset pada {alarm_time}")
+    except ValueError:
+        messagebox.showerror("Format Salah", "Format harus HH:MM AM/PM\nContoh: 03:09 PM")
 
 def cancel_alarm():
     global alarm_time
