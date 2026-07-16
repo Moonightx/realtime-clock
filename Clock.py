@@ -27,16 +27,26 @@ alarm_entry = tk.Entry(alarm_frame, font=("Consolas", 14), width=12, justify="ce
 alarm_entry.insert(0, "HH:MM AM/PM")
 alarm_entry.pack()
 
-alarm_time = None
+alarm_daily = tk.BooleanVar()
+daily_checkbox = tk.Checkbutton(alarm_frame, text="Ulangi setiap hari", variable=alarm_daily, bg=BG_COLOR, fg=TEXT_COLOR, selectcolor=CARD_COLOR, activebackground=BG_COLOR, activeforeground=TEXT_COLOR, font=("Segoe UI", 10))
+daily_checkbox.pack(pady=5)
+
+alarm_time = Nonealarm_time = None
+alarm_triggered = False
 
 def set_alarm():
-    global alarm_time
+    global alarm_time, alarm_triggered
     input_user = alarm_entry.get().strip()
 
     try:
         datetime.strptime(input_user, "%I:%M %p")
         alarm_time = input_user
-        messagebox.showinfo("Alarm", f"Alarm diset pada {alarm_time}")
+        alarm_triggered = False
+
+        if alarm_daily.get():
+            messagebox.showinfo("Alarm", f"Alarm diset pada {alarm_time}\nBerulang setiap hari")
+        else:
+            messagebox.showinfo("Alarm", f"Alarm diset pada {alarm_time}")
     except ValueError:
         messagebox.showerror("Format Salah", "Format harus HH:MM AM/PM\nContoh: 03:09 PM")
 
@@ -52,7 +62,7 @@ cancel_button = tk.Button(alarm_frame, text="Cancel Alarm", command=cancel_alarm
 cancel_button.pack(pady=5)
 
 def update_time():
-    global alarm_time
+    global alarm_time, alarm_triggered
     now = datetime.now()
 
     waktu_sekarang = now.strftime("%I:%M:%S %p")
@@ -62,12 +72,19 @@ def update_time():
     date_label.config(text=tanggal_sekarang)
 
     waktu_tanpa_detik = now.strftime("%I:%M %p")
-    if alarm_time == waktu_tanpa_detik:
+
+    if alarm_time == waktu_tanpa_detik and not alarm_triggered:
         winsound.Beep(1000, 500)
         winsound.Beep(1000, 500)
         winsound.Beep(1000, 500)
         messagebox.showinfo("Alarm", "Waktunya sudah tiba! ⏰")
-        alarm_time = None    
+        alarm_triggered = True
+
+        if not alarm_daily.get():
+            alarm_time = None
+
+    if alarm_time != waktu_tanpa_detik:
+        alarm_triggered = False    
 
     root.after(1000, update_time)
 
